@@ -20,8 +20,6 @@ A simple and efficient Android application to track your daily income and expens
 
 *   ## 📸 Screenshots
 
-*(Tip: Once you take screenshots of your app, you can upload them to the `screenshots/` folder and link them here!)*
-
 | Dashboard | Add Transaction |
 | :---: | :---: |
 | ![](screenshots/Dashboard.png) | ![](screenshots/AddTransaction.png) |

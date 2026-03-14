@@ -1,5 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+
+    <!-- App brand -->
+    <color name="navy_dark">#1A1A2E</color>
+    <color name="background_page">#F7F7F8</color>
+
+    <!-- Amount colours used in adapter -->
+    <color name="income_green">#059669</color>
+    <color name="expense_red">#DC2626</color>
+
+    <!-- Type toggle — Income active state -->
+    <color name="toggle_income_bg">#D1FAE5</color>
+    <color name="toggle_income_text">#065F46</color>
+
+    <!-- Type toggle — Expense active state -->
+    <color name="toggle_expense_bg">#FEE2E2</color>
+    <color name="toggle_expense_text">#991B1B</color>
+
+    <!-- Type toggle — Inactive state (shared) -->
+    <color name="toggle_inactive_bg">#F0F0F0</color>
+    <color name="toggle_inactive_text">#888888</color>
+
+    <!-- Category tile — selected state -->
+    <color name="cat_selected_bg">#E8E8F5</color>
+    <color name="cat_selected_text">#1A1A2E</color>
+
+    <!-- Category tile — unselected state -->
+    <color name="cat_unselected_bg">#FFFFFF</color>
+    <color name="cat_unselected_text">#888888</color>
+
 </resources>

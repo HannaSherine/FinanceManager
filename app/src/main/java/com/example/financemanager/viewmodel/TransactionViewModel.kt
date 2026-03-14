@@ -21,4 +21,16 @@ class TransactionViewModel(
             repository.insertTransaction(transaction)
         }
     }
+
+    fun updateTransaction(transaction: Transaction) {
+        viewModelScope.launch {
+            repository.updateTransaction(transaction)
+        }
+    }
+
+    fun deleteTransaction(transaction: Transaction) {
+        viewModelScope.launch {
+            repository.deleteTransaction(transaction)
+        }
+    }
 }

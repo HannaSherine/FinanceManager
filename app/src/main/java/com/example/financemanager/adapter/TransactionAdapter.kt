@@ -16,34 +16,38 @@ import java.util.Locale
 class TransactionAdapter :
     ListAdapter<Transaction, TransactionAdapter.TransactionViewHolder>(TransactionDiffCallback()) {
 
+    // Set in MainActivity to handle swipe-to-delete
+    var onDelete: (Transaction) -> Unit = {}
+
+    // Set in MainActivity to handle tap-to-edit
+    var onEdit: (Transaction) -> Unit = {}
+
     private val dateFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
 
-    // Maps category name → emoji icon
     private val categoryIcons = mapOf(
-        "Food"       to "🍽️",
-        "Travel"     to "🚌",
-        "Shopping"   to "🛍️",
-        "Health"     to "💊",
-        "Salary"     to "💰",
-        "Education"  to "🎓",
-        "Rent"       to "🏠",
-        "Utilities"  to "⚡",
-        "income"     to "💰",   // fallback for legacy type-as-category entries
-        "expense"    to "💳"
+        "Food"      to "🍽️",
+        "Travel"    to "🚌",
+        "Shopping"  to "🛍️",
+        "Health"    to "💊",
+        "Salary"    to "💰",
+        "Education" to "🎓",
+        "Rent"      to "🏠",
+        "Utilities" to "⚡",
+        "income"    to "💰",
+        "expense"   to "💳"
     )
 
-    // Maps category name → background colour (hex string)
     private val categoryColors = mapOf(
-        "Food"       to 0xFFFEF3C7.toInt(),
-        "Travel"     to 0xFFE0E7FF.toInt(),
-        "Shopping"   to 0xFFFCE7F3.toInt(),
-        "Health"     to 0xFFCFFAFE.toInt(),
-        "Salary"     to 0xFFD1FAE5.toInt(),
-        "Education"  to 0xFFEDE9FE.toInt(),
-        "Rent"       to 0xFFFFEDD5.toInt(),
-        "Utilities"  to 0xFFFEF9C3.toInt(),
-        "income"     to 0xFFD1FAE5.toInt(),
-        "expense"    to 0xFFFEE2E2.toInt()
+        "Food"      to 0xFFFEF3C7.toInt(),
+        "Travel"    to 0xFFE0E7FF.toInt(),
+        "Shopping"  to 0xFFFCE7F3.toInt(),
+        "Health"    to 0xFFCFFAFE.toInt(),
+        "Salary"    to 0xFFD1FAE5.toInt(),
+        "Education" to 0xFFEDE9FE.toInt(),
+        "Rent"      to 0xFFFFEDD5.toInt(),
+        "Utilities" to 0xFFFEF9C3.toInt(),
+        "income"    to 0xFFD1FAE5.toInt(),
+        "expense"   to 0xFFFEE2E2.toInt()
     )
 
     class TransactionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -64,26 +68,18 @@ class TransactionAdapter :
         val transaction = getItem(position)
         val ctx = holder.itemView.context
 
-        // Title — use description; fall back to category
-        holder.title.text = transaction.description.ifEmpty { transaction.category }
-
-        // Date
-        holder.date.text = dateFormat.format(Date(transaction.date))
-
-        // Category label
+        holder.title.text    = transaction.description.ifEmpty { transaction.category }
+        holder.date.text     = dateFormat.format(Date(transaction.date))
         holder.category.text = transaction.category
 
-        // Icon emoji
         val icon = categoryIcons[transaction.category]
             ?: if (transaction.type == "income") "💰" else "💳"
         holder.icon.text = icon
 
-        // Icon background colour
         val bgColor = categoryColors[transaction.category]
             ?: if (transaction.type == "income") 0xFFD1FAE5.toInt() else 0xFFFEE2E2.toInt()
         holder.icon.setBackgroundColor(bgColor)
 
-        // Amount colour and prefix
         if (transaction.type == "income") {
             holder.amount.text = "+ ₹${String.format(Locale.getDefault(), "%.2f", transaction.amount)}"
             holder.amount.setTextColor(ctx.getColor(R.color.income_green))
@@ -91,6 +87,16 @@ class TransactionAdapter :
             holder.amount.text = "- ₹${String.format(Locale.getDefault(), "%.2f", transaction.amount)}"
             holder.amount.setTextColor(ctx.getColor(R.color.expense_red))
         }
+
+        // Tap item to edit
+        holder.itemView.setOnClickListener {
+            onEdit(transaction)
+        }
+    }
+
+    // Called by MainActivity's ItemTouchHelper on left swipe
+    fun deleteItemAt(position: Int) {
+        onDelete(getItem(position))
     }
 
     class TransactionDiffCallback : DiffUtil.ItemCallback<Transaction>() {

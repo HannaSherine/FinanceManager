@@ -18,14 +18,6 @@ A simple and efficient Android application to track your daily income and expens
 *   **Asynchronous Programming**: [Kotlin Coroutines](https://kotlinlang.org/docs/coroutines-overview.html) & [Flow](https://kotlinlang.org/docs/flow.html)
 *   **UI Components**: RecyclerView, ViewModel, LiveData, and ViewBinding.
 
-## 📸 Screenshots
-
-*(Tip: Once you take screenshots of your app, you can upload them to the `screenshots/` folder and link them here!)*
-
-| Dashboard | Add Transaction |
-| :---: | :---: |
-| [Screenshot 1] | [Screenshot 2] |
-
 ## 🏗️ Project Structure
 
 *   `data/`: Contains the Transaction entity.
